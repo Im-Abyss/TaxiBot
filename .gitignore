@@ -1,0 +1,10 @@
+\__MACOSX
+__pycache__/
+.venv/
+.vscode/
+.idea/
+
+settings.py
+test.py
+
+users.db
