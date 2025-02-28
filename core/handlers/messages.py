@@ -20,6 +20,7 @@ BOLD_END = "</b>"
 
 async def is_admin(user_id):
     """Проверяет, является ли пользователь администратором."""
+
     return user_id in ADMIN_ID
 
 
@@ -227,7 +228,7 @@ async def send_to_channel(summary: str, message: Message):
 
 @router.message(Command("ban"))
 async def ban_user(message: Message, command: CommandObject):
-    if not await  is_admin(message.from_user.username):
+    if not await is_admin(message.from_user.id):
         await message.answer("Эта команда доступна только администратору.")
         return
 
@@ -235,7 +236,8 @@ async def ban_user(message: Message, command: CommandObject):
         await message.answer("Пожалуйста, укажите username или номер телефона для блокировки.")
         return
 
-    identifier = command.args.strip()  
+    identifier = command.args.strip()
+
     with Session(bind=engine) as db:
         user = None
         if identifier.startswith("+") or identifier.isdigit():  
@@ -259,7 +261,7 @@ async def ban_user(message: Message, command: CommandObject):
 
 @router.message(Command("unban"))
 async def unban_user(message: Message, command: CommandObject):
-    if not await is_admin(message.from_user.username):
+    if not await is_admin(message.from_user.id):
         await message.answer("Эта команда доступна только администратору.")
         return
 
